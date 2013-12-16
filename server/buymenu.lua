@@ -51,7 +51,7 @@ end
 -- Events
 function BuyMenu:PlayerJoin( args )
     local qry = SQL:Query( "select model_id from buymenu_players where steamid = (?)" )
-    qry:Bind( 1, args.player:GetSteamId().Id )
+    qry:Bind( 1, args.player:GetSteamId().id )
     local result = qry:Execute()
 
     if #result > 0 then
@@ -193,7 +193,7 @@ function BuyMenu:BuyModel( player, item )
 
     local cmd = SQL:Command( 
         "insert or replace into buymenu_players (steamid, model_id) values (?, ?)" )
-    cmd:Bind( 1, player:GetSteamId().Id )
+    cmd:Bind( 1, player:GetSteamId().id )
     cmd:Bind( 2, item:GetModelId() )
     cmd:Execute()
 
