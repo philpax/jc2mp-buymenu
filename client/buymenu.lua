@@ -224,7 +224,7 @@ function BuyMenu:LocalPlayerInput( args )
 end
 
 function BuyMenu:ModulesLoad()
-    Events:FireRegisteredEvent( "HelpAddItem",
+    Events:Fire( "HelpAddItem",
         {
             name = "Buy Menu",
             text = 
@@ -238,7 +238,7 @@ function BuyMenu:ModulesLoad()
 end
 
 function BuyMenu:ModuleUnload()
-    Events:FireRegisteredEvent( "HelpRemoveItem",
+    Events:Fire( "HelpRemoveItem",
         {
             name = "Buy Menu"
         } )
