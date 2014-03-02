@@ -30,6 +30,7 @@ function BuyMenu:__init()
     Events:Subscribe( "TeleportPoint", self, self.AddHotspot )
 
     Network:Subscribe( "PlayerFired", self, self.PlayerFired )    
+    Network:Subscribe( "ColorChanged", self, self.ColorChanged )
 
     SQL:Execute( "create table if not exists buymenu_players (steamid VARCHAR UNIQUE, model_id INTEGER)")
 end
@@ -46,6 +47,12 @@ function BuyMenu:IsInHotspot( pos )
 end
 
 -- Events
+function BuyMenu:ColorChanged( args, sender )
+    local veh = sender:GetVehicle()
+    if IsValid(veh) then
+        veh:SetColors( args.tone1, args.tone2 )
+    end
+end
 function BuyMenu:PlayerJoin( args )
     local qry = SQL:Query( "select model_id from buymenu_players where steamid = (?)" )
     qry:Bind( 1, args.player:GetSteamId().id )
