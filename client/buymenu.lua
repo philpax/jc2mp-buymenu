@@ -157,20 +157,31 @@ function BuyMenu:LoadCategories()
             tone1:SetDock( GwenPosition.Fill )
             tone1:Subscribe( "ColorChanged", function()
                 self.tone1 = tone1:GetColor()
-                Network:Send( "ColorChanged", { tone1 = self.tone1, tone2 = self.tone2 } )
             end )
             tone1:SetColor( Color( 255, 255, 255 ) )
             self.tone1 = tone1:GetColor()
-
-            local tone2 = HSVColorPicker.Create()
+			
+			local tone2 = HSVColorPicker.Create()
             tab_control:AddPage( "Tone 2", tone2 )
             tone2:SetDock( GwenPosition.Fill )
             tone2:Subscribe( "ColorChanged", function()
                 self.tone2 = tone2:GetColor() 
-                Network:Send( "ColorChanged", { tone1 = self.tone1, tone2 = self.tone2 } )
             end )
             tone2:SetColor( Color( 255, 255, 255 ) )
             self.tone2 = tone2:GetColor()
+			
+			if LocalPlayer:GetVehicle() ~= nil then
+				local tempTone1, tempTone2 = LocalPlayer:GetVehicle():GetColors()
+				tone1:SetColor(tempTone1)
+				tone2:SetColor(tempTone2)
+			end
+			
+			local setColorBtn = Button.Create(window)
+			setColorBtn:SetText("Set Color")
+			setColorBtn:SetDock( GwenPosition.Bottom )
+			setColorBtn:Subscribe( "Down", function()
+				Network:Send( "ColorChanged", { tone1 = self.tone1, tone2 = self.tone2 } )
+			end )
         end
     end
 end
